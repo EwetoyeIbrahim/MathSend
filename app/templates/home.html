@@ -1,0 +1,10 @@
+{% extends "index_template.html" %}
+{% block solved %}
+<button class="btn-large waves-effect waves-light grey col s12 m6 l6 push-l3 "  type="submit" name="submit" value="Solve It">
+	<i class="large material-icons">send</i>
+</button>
+{% endblock %}
+{% block quote %}
+	{{ recent["quote"] }}
+{% endblock %}
+			 	

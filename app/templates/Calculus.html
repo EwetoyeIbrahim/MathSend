@@ -1,0 +1,74 @@
+{% extends "screens_template.html" %}
+{% block title %}
+	<title>MathSend : Calculus Keywords</title>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container section flow-text" >
+<h4 class="grey-text"> <strong>Calculus Operations</strong></h4>
+<div class="card-panel">
+	<h4> Differentiate()</h4>
+		 The formats:
+<ul> <li>	differentiate(expression)  </li>
+<li>	differentiate(expression, var) </li></ul>
+
+but the variable arument may be ommitted if there is only
+one variable in the expresstion or if variable x is intended.
+For example: <a href="differentiate(sin(x)*exp(x))"> differrentiate(sin(x)*exp(x)) </a>
+partial differentials can also be performed by specifying the intended variable,in the form,
+differentiaite(function, variable),
+for example:
+<a href="differentiate(2x*y^2 + 3y + z,y)"> differentiate(2x*y^2 + 3y + z,y) </a> will
+yield a solution for when the fuction is differentiated with respect to y while other
+variables (x and z) are constants.
+		</div>
+
+		<div class="card-panel">
+<h4> Integrate() </h4>
+MathSend can provide solution to both definite and indefinite integrals to
+compute an integral. Formats:
+<ul>	<li>	integrate(expression) </li>
+<li>	integrate(expression, variable)</li>
+<li>	integrate(expression, variable, lower_limit, upper_limit)</li> </ul>
+For example, <a href="/integrate(3*y*x^4+8y)">integrate(3*y*x^4+8y)</a> will
+integrate expression with respect to x, while for other variables
+the form <a href="/integrate(3*y/x^4+8yxz, y)"> integrate(3*y/x^4+8yxz, y)</a> will integrate with
+respect to y.
+Multiple integrals can also be performed by specifying the order of the variable,
+for example integrate <a href="/integrate(3*y/x^4+8yxz, y, x,x,z)"> integrate(3*y/x^4+8yxz, y, x,x,z </a>
+integrates the expression four times: first with
+respect to y, second with respect to x, third with respect to x again,  and fourth with respect to z.
+
+For definite integrals, the format is :  integrate(expression, variable, lower_limit, upper_limit),
+for example  <a href="/integrate(3*y/x^4+8yxz, y, 0, inf)"> integrate(3*y/x^4+8yxz, y, 0, inf)</a> will
+integrate the expression with respect to y from 0 to infinity
+
+</div>
+<div class="card-panel">
+<h4> Limit() </h4> 
+
+Mathsend utilize the Sympy module to compute Limits to a supplied fuction using Gruntz
+heuristics and algorithm. Formats:
+<ul>	<li>	limit(expression) </li>
+<li>	limit(expression, variable) </li>
+<li>	limit(expression, variable, lower_limit, upper_limit) </li></ul>
+The format is limit(expression, variable, lower_limit, upper_limit).
+For example: <a href="/limit(x*sin(1/x), x, inf)"> limit(x*sin(1/x), x, inf)</a>
+</div>
+
+<div class="card-panel">
+	<h4> Series() </h4>Asymptotic  series expansions  can be computed with the series keywords.
+The formats:
+<ul>	<li>	series(expression) </li>
+<li>	series(expression, variable) </li>
+<li>	series(expression, variable, x<sub>0</sub>, upper_limit) </li></ul>
+if the x<sub>0</sub> ans order values are not specified (that is, any of the first two formats)
+x0 will be taken as 0 while the order as 6. For example:
+series(sin(x)) computes the Taylor series of sin(x) up to the order of series;  and for a higher order of
+the series, say 9, use series(sin(x),0,9).
+For a different initial value, say 2, with the solution required up to the 9th order of x, we have <a href="/series(sin(x), x, 2, 9)"> series(sin(x), x, 2, 9)</a>.
+
+</div>
+{% endblock %}

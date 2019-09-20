@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}
+
+    {% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <meta name="description" content="Mathsend: free online mathematics computing engine">
+ <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{
+        url_for('static', filename='css/_0_main.css')
+        }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/ms_ico_s.png.ico') }}">
+
+<title>Mathsend Chatbot</title>
+</head>
+<body>
+    <header>
+        <nav class="white">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <div class="col s12">
+                        <a href="/">
+                            <img class = "hide-on-small-only" style="padding-top:6px; padding-bottom: 2px; height: 55px; width: auto;" alt="MathSend"
+                            src="{{
+                                url_for('static', filename='images/mathsend_l2small.png')
+                                }}"
+                            />
+                            <img class = "hide-on-med-and-up" style="padding-top:8px; height: 45px;" alt="MathSend"
+                                src="{{
+                                    url_for('static', filename='images/mathsend_logo_T2s.png')
+                                    }}"
+                            />
+                        </a>
+                        <div class="platforms" >
+                            <a href="http://www.t.me/MATHSEND_bot">
+                                <img alt="Telegram" src="{{
+                                    url_for('static', filename='images/telegramIcon2.png')
+                                    }}" style="width:40px"/>
+                            </a>
+                            <a href="http://www.m.me/MATHSEND.bot">
+                                <img alt="Messenger" src="{{
+                                    url_for('static', filename='images/messengerIcon.png')
+                                    }}" style="width:40px"/>
+                            </a>
+                            <a href="/help">
+                                <img alt="Help" src="{{
+                                    url_for('static', filename='images/help2.png')
+                                    }}" style="width:40px"/>
+                            </a>
+                        <div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class container>
+
+            <div class="row">
+                <div class container>
+
+                {% block content %}
+
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer white">
+        <div class="row">
+
+        </div>
+    </div>
+        <div class="footer-copyright blue-text">
+            <div class="container">
+                © 2019 by EWETOYE Ibrahim
+                <div class="right">
+                    <a target="_blank" href="/contact"> Contact</a>
+                    |
+                    <a target="_blank" href="/privacy"> Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

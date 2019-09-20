@@ -1,0 +1,28 @@
+{% extends "screens_template.html" %}
+{% block title %}
+	<title>MathSend : Solve Keywords</title>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container section flow-text" >
+<h4 class="grey-text"><strong>Solve Keywords</strong></h4>
+<div class="card-panel">
+		<h4> Solve() </h4>
+formats: 
+<ul>
+<li>	solve(expression)</li>
+<li>	solve(expression, variable)</li>
+<li>	solve([expression1, expression2],[var1,var2])</li></ul>
+
+ supplying an expression without any keyword first tries to solve the 
+ expression by default but can be made more effective by using it explicitly. 
+ <b> the expressions is assumed to be equal to zero</b>.
+ In case of numerous variables, the variable to be solved for may be specified, 
+ else one will be chosen automatically, usually x if present. See structure below.
+For example, exp(x)+1, exp(x)+1, x and solve(exp(x) + 1, x) all produce the same result
+To solve simultaneous equations, first make each equations to be equal to 0, then supply as show below.
+solve([eq1,eq2...], [var1,var2...]). For example: <a href="/solve([x + 5*y - 2, -3*x + 6*y - 15], [x, y])"> solve([x + 5*y - 2, -3*x + 6*y - 15], [x, y])</a>
+</div>
+{% endblock %}

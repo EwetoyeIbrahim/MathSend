@@ -1,0 +1,56 @@
+{% extends "screens_template.html" %}
+{% block title %}
+	<title>MathSend : Simplification Keywords</title>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container section flow-text">
+	<h4 class="grey-text"> <strong>Simplification Keywords</strong></h4>
+
+<div class="card-panel">
+<h4>Expand(): </h4>
+<p>MathSend expands any given expression by the implementation of the famous triangular representation of numbers. Though, the pattern of numbers that forms Pascal's triangle was known to the Chinese well before Pascal's time, but its uses were first mathematically attested to by Blaise Pascal, in his Traité du triangle arithmétique (1654), later published in 1665.
+Given an expression that conforms to the form like: (ax+b)<sup>n</sup>
+The "elementary" method is to write the expression within the bracket n times after which the brackets are then opened through multiplication.<br>
+For example, (2x+3)<sup>2</sup> = (2x+3)*(2x+3) = 4x<sup>2</sup> + 12x + 9.
+But this method gets more cumbersome with increasing power (n), okay, try (3x-7)^9 within one minute and compare your answer with our console output mathsend.com/(3x-7)^9 ... That's where Pascal's triangle becomes handy. You may read more about it.
+MATHSEND chatbot uses Pascal's triangle for expansion tasks, to expand any given expression just type in the required expression within the EXPAND() keyword. You can also solve it by going to the expression direct link as all expressions have a mathsend direct for example:
+<ul>
+(2x+3)<sup>2</sup> = <a href="mathsend.com/expand((2*x+3)^2)">mathsend.com/expand((2*x+3)^2</a></ul>
+<ul>
+(3x-7)<sup>9</sup> = <a href ="mathsend.com/expand((3x-7)^9)">mathsend.com/expand((3x-7)^9)</a></ul>
+</p>
+</div>
+
+
+<div class="card-panel">
+		<h4>Factor():</h4>
+<p>This keyword is used to factorize a given expression. Factorization may be referred to as the decompositions of a mathematical object into the product of smaller or simpler objects. Given any polynomial expression, for a factorization operation to be referred to as successful, the resulting form must be further irreducible.
+For example, to factorize x<sup>4</sup> - 3*x<sup>2</sup> + 1, we type <a href="mathsend.com/factor(x^4 - 3*x^2 + 1)"> factor(x^4 - 3*x^2 + 1) </a>
+</p>
+</div>
+<div class="card-panel">
+		<h4>Collect():</h4>
+		<p>whenever you only need polynomial coefficients and not the full expression, the collect keyword takes care of that. It must be noted that the reported solution will be in descending power of the variable where the missing powers are represented with zero. For example, it's obvious that the coefficient of <a href="mathsend.com/collect(11x^4 - 36x^3+x +3"> collect(11x^4 - 36x^3+x +3) </a> yields [11 -36 0 1 3].
+</p>
+</div>
+		<div class="card-panel">
+				<h4>Cancel():</h4> <p>Given a rational expression a/b, the cancel keyword tries to cancel-out all common factors in the supplied fraction to give an irreducible rational expression as x/y. For example, 18/12, the common factor is 6 which reduces the the rational function to 3/2: .
+</p>
+</div>
+<div class="card-panel">
+		<h4>APART():</h4><p> for any given rational function, MATHSEND compute the partial fraction decomposition of the function when supplied with the apart keyword.
+</p></div>
+<div class="card-panel">
+	<h4>Trigsimplify():</h4><p> used to convert trigonometric expressions to their simplest and smallest reducible terms. Just as factor is to polynomial expression, the output of the operation will be the smallest irreducible form of the supplied expression. For example: <a href="/trigsimplify(sin(x)^2+cos(x)^2)"> trigsimplify(sin(x)^2+cos(x)^2) </a> = 1
+</p></div>
+<div class="card-panel">
+		<h4>Trigexpand():</h4><p> It's the opposite of trigsimp and the trigonometric counter part the Expand() keyword for trigonometric function.
+</p></div>
+<div class="card-panel">
+		<h4>Simplify():</h4><p> supplying an expression this keyword forces MATHSEND to apply several methods to the expression in order to comeup with a reasonable simplified solution. For example: <a href="/simplify(2x^2 + 3x + 4x)">simplify(2x^2 + 3x + 4x)</a> = x*(2*x + 7)
+</p></div>
+
+{% endblock %}
