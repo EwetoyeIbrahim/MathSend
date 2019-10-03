@@ -2,7 +2,7 @@
 
 abouttxt = " I am a Mathematician created by EWETOYE Ibrahim to handle mathematics on social media platforms."
 
-errortxt = " I don't understand your expression. text 'help' if you need it"
+errortxt = " Unknown Expression, use 'help' if you need it"
 
 helptxt = """
 ***********

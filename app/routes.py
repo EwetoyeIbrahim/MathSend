@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for,  flash, Response, jsonify
 import requests, json, urllib.parse
 from random import randint
-from app.CompuCtrl import CompuCtrl
+from app.mathsend_engine import human_math as calcEngine
 from app.helpTxt import helpTopics
 from app.quotes import quotes
 from app.feedback_form import ContactForm
@@ -18,8 +18,7 @@ mail = Mail()
 mail.init_app(app)
 sender = app.config["MAIL_USERNAME"]
 recipient = app.config["RECIPIENT"]
-
-TCtrl = CompuCtrl()
+backend_stat = app.config["STAT_SECREAT"]
 
 
 
@@ -50,29 +49,65 @@ def web_solution():
     web_solution.counter +=1
     return render_template("solutionPage.html",recent = result),200
 
-@app.route("/api/v1.0/question", methods=["GET"])
-def api_call():
+@app.route("/api/v1.0/compute", methods=["GET"])
+def api_compute_call():
     in_expr = request.query_string.decode("utf-8")
-    result = api_compute(urllib.parse.unquote(in_expr))
+    question = urllib.parse.unquote(in_expr)
+    if question[0]=="=":
+        # curl needs an = sign to work effectively
+        question = question[1:] 
+    result = api_compute(question)
     api_call.counter +=1
+    return jsonify(result)
+
+@app.route("/api/v1.0/rewrite", methods=["GET"])
+def api_rewrite_call():
+    api_call.counter +=1
+    in_expr = request.query_string.decode("utf-8")
+    question = urllib.parse.unquote(in_expr)
+    if question[0]=="=":
+        # curl needs an = sign to work effectively
+        question = question[1:] 
+    message = calcEngine.rewrite(question)
+    pick = randint(0,len(quotes)-1)
+    quote = quotes[pick]
+    result = {"ques":in_expr,
+              "answ":message,
+              "quote":quote,
+              "stat": {"overall_count": web_solution.counter +
+                       api_call.counter + fb_webhook.counter +
+                       telegram_webhook.counter
+                       }
+              }
     return jsonify(result)
 
 def api_compute(in_expr):
     api_compute.counter+=1
-    message = TCtrl.compu(in_expr)
+    message = calcEngine.compute(in_expr)
     pick = randint(0,len(quotes)-1)
     quote = quotes[pick]
     recent = {"ques":in_expr,
               "answ":message,
               "quote":quote,
-              "stat": {"overall_count": api_compute.counter,
+              "stat": {"overall_count": web_solution.counter +
+                       api_call.counter + fb_webhook.counter +
+                       telegram_webhook.counter
+                       }
+              }
+    return recent
+
+@app.route("/api/"+backend_stat, methods=["GET"])
+def api_call():
+    api_call.counter +=1
+    result = {"stat": {"overall_count": api_compute.counter,
                        "website_count" : web_solution.counter,
                        "external_api_call" : api_call.counter,
                        "facebook_calls" : fb_webhook.counter,
                        "telegram_count": telegram_webhook.counter
                        }
               }
-    return recent
+    return jsonify(result)
+
 
 @app.route("/<string:in_expr>", methods=["GET"])
 # I want to preserverve the previous method, /2*89
@@ -98,7 +133,7 @@ def contact():
       flash('All fields are required.')
       return render_template('contact.html', form=form)
     else:
-      msg = Message(form.subject.data, sender= sender, recipients=recipient)
+      msg = Message(form.subject.data, sender= sender, recipients=recipient.split())
       msg.body = """
       From: %s &lt;%s&gt;
       %s
@@ -160,7 +195,7 @@ def fb_webhook():
         }
         ansed = api_compute(user_message)["answ"]
         data['message']['text'] = ansed
-        r = requests.post(
+        requests.post(
             'https://graph.facebook.com/v2.6/me/messages/?access_token=' + fbToken, json=data
             )
     return Response(response="EVENT RECEIVED",status=200)
@@ -168,7 +203,9 @@ def fb_webhook():
 
 @app.errorhandler(404)
 def not_found_error(error):
-    return redirect(url_for('home'))
+    return Response(response="""
+                    404: It seems you took a wrong turn, Kindly start from <a href ='/'>Mathsend.com</a>
+                    """, status=404)
 
 def stat_format(num_val):
     num_val = float('{:.3g}'.format(num_val))

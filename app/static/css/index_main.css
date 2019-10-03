@@ -25,6 +25,7 @@ main {
 .platforms{
     float: right;
     padding-top: 8px;
+
 }
 
 
@@ -50,14 +51,17 @@ main {
     padding-top: 5px;
 }
 
-.advert {
-	display: block;
-    max-width: 90%;
-    height: auto;
-    margin:auto;  
+
+
+.topImg{
+    float: right;
+    padding-top:8px !important;
+    width: 2px !important
 }
 
-#topImg{
-    padding-top:80px;
-    width: 5px
+#h1h{
+    font-size: 108px;
+}
+.advert_line{
+    width: 50px;
 }
