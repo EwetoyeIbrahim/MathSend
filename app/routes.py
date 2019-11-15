@@ -55,7 +55,7 @@ def api_compute_call():
     question = urllib.parse.unquote(in_expr)
     if question[0]=="=":
         # curl needs an = sign to work effectively
-        question = question[1:] 
+        question = question[1:]
     result = api_compute(question)
     api_call.counter +=1
     return jsonify(result)
@@ -67,7 +67,7 @@ def api_rewrite_call():
     question = urllib.parse.unquote(in_expr)
     if question[0]=="=":
         # curl needs an = sign to work effectively
-        question = question[1:] 
+        question = question[1:]
     message = calcEngine.rewrite(question)
     pick = randint(0,len(quotes)-1)
     quote = quotes[pick]
@@ -215,8 +215,8 @@ def stat_format(num_val):
         num_val /= 1000.0
     return '{}{}'.format('{:f}'.format(num_val).rstrip('0').rstrip('.'),['',' Thousand',' Million',' Billion',' Trillion',' Quadrillion',' Quintillion', ' Sextillion', ' Septillion'][magnitude])
 
-api_compute.counter = 52568    # overall count
-web_solution.counter = 47207    # web count 14/09/2019
+api_compute.counter = 55768    # overall count
+web_solution.counter = 50407    # web count 14/09/2019
 api_call.counter = 61         # explicit api call
 fb_webhook.counter = 296    # facebook count
 telegram_webhook.counter= 5004  # telegram count
