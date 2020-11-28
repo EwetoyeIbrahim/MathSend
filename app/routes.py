@@ -1,5 +1,6 @@
 from app import app
 from flask import render_template, request, redirect, url_for,  flash, Response, jsonify, session, abort
+from flask_cors import CORS
 import requests, json, urllib.parse
 from random import randint
 from app.mathsend_engine import human_math as calcEngine
@@ -22,6 +23,8 @@ sender = app.config["MAIL_USERNAME"]
 recipient = app.config["RECIPIENT"]
 backend_stat = app.config["STAT_SECREAT"]
 
+# allow CORS for all domains on /api routes
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 @app.route("/", methods=["GET"])
