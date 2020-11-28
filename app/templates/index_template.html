@@ -122,43 +122,7 @@
 
                 <div class="container center col s12">
                     {% if recent %}
-                        {% if recent["ads_val"] == 0 %}
-                            <a target="_blank" alt="Jumia Advert"
-                                href="http://c.jumia.io/?a=147346&c=433&p=r&E=kkYNyk2M4sk%3d&utm_source=cake&utm_medium=affiliation&utm_campaign=147346&utm_term=">
-                                <img id="advert_line"
-                                    src="https://jumia.com/affiliate-program/banners/Jumia Nigeria/Computing/728X90.jpg"/>
-                            </a>
 
-                        {% elif recent["ads_val"] == 1 %}
-                            <a target="_blank" href="/advertise">
-                                <img id="advert_line"
-                                    src="{{
-                                        url_for('static', filename='images/ads_val1.png')
-                                        }}"
-                                />
-                            </a>
-                        <!--
-                        {% elif recent["ads_val"] == 2 %}
-                            <a target="_blank" href="/advertise">
-                                <img id="advert_line"
-                                    src="{{
-                                        url_for('static', filename='images/ads_val0.png')
-                                        }}"
-                                />
-                            </a>
-
-
-                        {% elif recent["ads_val"] == 3 %}
-                            <a target="_blank" href="/advertise">
-                                <img id="advert_line"
-                                    src="{{
-                                        url_for('static', filename='images/ads_val0.png')
-                                        }}"
-                                />
-                            </a-->
-
-                        {% endif %}
-                        {% else %}
                         <a target="_blank" href="/advertise">
                             <img  id="advert_line"
                                 src="{{
