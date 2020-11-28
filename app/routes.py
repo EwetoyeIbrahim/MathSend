@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for,  flash, Response, jsonify
+from flask import render_template, request, redirect, url_for,  flash, Response, jsonify, session, abort
 import requests, json, urllib.parse
 from random import randint
 from app.mathsend_engine import human_math as calcEngine
@@ -8,6 +8,8 @@ from app.quotes import quotes
 from app.feedback_form import ContactForm
 from flask_mail import Message, Mail
 import telepot
+from multiprocessing import Value
+import requests
 
 teleg_bot = telepot.Bot(app.config["TG_TOKEN"])
 #facebook related
@@ -22,40 +24,30 @@ backend_stat = app.config["STAT_SECREAT"]
 
 
 
-@app.route("/", methods=["GET","POST"])
+@app.route("/", methods=["GET"])
 def home():
-    if request.method == "POST":
-        in_expr = request.form.get("in_expr")
-        return redirect("question?"+ in_expr)
-    pick = randint(0,len(quotes)-1)
-    quote = quotes[pick]
-    recent = {"quote":quote,
-              "ads_val": pick%4,
-              "stat": {
-                  "overall_count": stat_format(api_compute.counter)
-                  }
-              }
-    return render_template("home.html",recent = recent),200
+    expression = session.get('expression', None)
+    if expression:
+        recent = api_compute(expression)
+    else:
+        pick = randint(0,len(quotes)-1)
+        recent = {"ques":"", "answ":"",
+                  "quote":quotes[pick], "ads_val": pick%2,
+                  "link": "",
+                  "stat": {"overall_count": stat_format(api_compute.counter)},
+        }
+    return render_template("index_template.html",recent = recent),200
 
-@app.route("/question", methods=["GET","POST"])
+@app.route("/question", methods=["GET"])
 def web_solution():
-    if request.method == "POST":
-        in_expr = request.form.get("in_expr")
-        return redirect("question?"+ in_expr)
     in_expr = request.query_string.decode("utf-8")
-    result = api_compute(urllib.parse.unquote(in_expr))
-    result["ads_val"] = randint(0,3)
-    result["stat"]["overall_count"] = stat_format(result["stat"]["overall_count"])
-    web_solution.counter +=1
-    return render_template("solutionPage.html",recent = result),200
+    session['expression'] = urllib.parse.unquote(in_expr)
+    #result = home(urllib.parse.unquote(in_expr))
+    return redirect(url_for('home'))
 
 @app.route("/api/v1.0/compute", methods=["GET"])
 def api_compute_call():
-    in_expr = request.query_string.decode("utf-8")
-    question = urllib.parse.unquote(in_expr)
-    if question[0]=="=":
-        # curl needs an = sign to work effectively
-        question = question[1:]
+    question = make_question(request.query_string.decode("utf-8"))
     result = api_compute(question)
     api_call.counter +=1
     return jsonify(result)
@@ -63,11 +55,7 @@ def api_compute_call():
 @app.route("/api/v1.0/rewrite", methods=["GET"])
 def api_rewrite_call():
     api_call.counter +=1
-    in_expr = request.query_string.decode("utf-8")
-    question = urllib.parse.unquote(in_expr)
-    if question[0]=="=":
-        # curl needs an = sign to work effectively
-        question = question[1:]
+    question = make_question(request.query_string.decode("utf-8"))
     message = calcEngine.rewrite(question)
     pick = randint(0,len(quotes)-1)
     quote = quotes[pick]
@@ -89,6 +77,7 @@ def api_compute(in_expr):
     recent = {"ques":in_expr,
               "answ":message,
               "quote":quote,
+              "link": "www.mathsend.com/question?"+ in_expr,
               "stat": {"overall_count": web_solution.counter +
                        api_call.counter + fb_webhook.counter +
                        telegram_webhook.counter
@@ -215,11 +204,23 @@ def stat_format(num_val):
         num_val /= 1000.0
     return '{}{}'.format('{:f}'.format(num_val).rstrip('0').rstrip('.'),['',' Thousand',' Million',' Billion',' Trillion',' Quadrillion',' Quintillion', ' Sextillion', ' Septillion'][magnitude])
 
-api_compute.counter = 55768    # overall count
-web_solution.counter = 50407    # web count 14/09/2019
-api_call.counter = 61         # explicit api call
-fb_webhook.counter = 296    # facebook count
-telegram_webhook.counter= 5004  # telegram count
+api_compute.counter = 263976     # overall count
+web_solution.counter = 250407   # web count 14/09/2019
+api_call.counter = 618          # explicit api call
+fb_webhook.counter = 2947       # facebook count
+telegram_webhook.counter= 10004 # telegram count
+
+def make_question(in_expr):
+    question = urllib.parse.unquote(in_expr)
+    try:
+        if question[0]=="=":
+            # curl needs an = sign to work effectively
+            question = question[1:]
+    except:
+        abort(500)
+    return question
 
 if __name__ == "__main__":
-	app.run(debug=True)
+    app.run(debug=True, processes=8)
+    r = requests.get('https://www.python.org')
+    print(r.status_code) 

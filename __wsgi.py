@@ -16,9 +16,10 @@ import sys
 ## "git clone git@github.com/myusername/myproject.git"
 ## ...or uploaded files to the directory "myproject", then you should
 ## specify "/home/ewetoye/myproject"
-path = '/home/ewetoye/MathSend'
+'''path = '/home/ewetoye/MathSend'
 if path not in sys.path:
     sys.path.append(path)
+'''
 from MathSend import app as application  # noqa
 #
 # NB -- many Flask guides suggest you use a file called run.py; that's

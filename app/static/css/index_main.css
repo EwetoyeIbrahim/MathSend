@@ -5,7 +5,7 @@ body {
 }
 
 header{
-    z-index: 99;
+    z-index: 89;
     position: fixed;
     width: 100%;
     font-weight: bold;
@@ -42,7 +42,7 @@ main {
 
 .fixed-action-btn-left{
     position: fixed;
-    z-index: 100;
+    z-index: 90;
 }
 
 .mathsendLogo{
@@ -62,6 +62,40 @@ main {
 #h1h{
     font-size: 108px;
 }
-.advert_line{
-    width: 50px;
+
+#advert_line{
+    width:400px;
+    max-width:100%;
+    height:auto;
+}
+
+#platform{
+    width:40px;
+}
+/* The loader */
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 100;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid darkorange;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
